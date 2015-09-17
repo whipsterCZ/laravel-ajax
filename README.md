@@ -1,15 +1,17 @@
-# Laravel-Ajax : javascript + Laravel Extension - AjaxService
+# Laravel-Ajax : javascript + AjaxService (Framework Extension)
 
 Helps automate javascript ajax requests and JSON responses.
 
-For invalid FormRequests it renders HTML validation errors - to ErrorBagContainer and FormGroup (Optional)
+Provides useful tools for working with JSON responses.
+
+For invalid FormRequests **renders HTML validation errors** - to ErrorBagContainer and FormGroup (Optional)
 If JSON contains redirect key it redirects page. @SEE AjaxService
 
 
 Installation
 ------------
 
-1) Add source code to your existing App - directories should **match service Namespace**
+1) Copy source code to your existing App - directories should **match service Namespace**
 ~~~~~ php
 app/Services/Ajax/
 ~~~~~
@@ -43,14 +45,14 @@ Usage
 
 ## FrontEnd
 
-to AJAXify your HTML just add 'ajax' class to your Forms or Anchors
+to AJAXify your HTML just add `ajax` class to your Forms or Anchors
 ~~~~~ html
-<form action="..." class="ajax">
-<a href="..." class="ajax">
+<form action="" class="ajax">
+<a href="" class="ajax">
 ~~~~~
 
 ajax success request handler expect JSON containing some of these keys
-~~~~~ json
+~~~~~ javascript
 {
 	redirect: 'absoluteUrl', //page to redirect
 	sections: {     //html sections for redraw
