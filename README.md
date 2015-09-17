@@ -104,6 +104,7 @@ public function(\App\Services\Ajax\Ajax $ajax) {
 Rendering or sending data
 ~~~~~ php
 	$ajax->redrawSection('comments');
+	$ajax->json = $data; //setting custom data (custom ajax success handler needed)
 	...
 	return $ajax->view('posts.show', $data )
 }
