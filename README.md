@@ -1,10 +1,9 @@
 # Laravel-Ajax : javascript + AjaxService (Framework Extension)
 
   - Provides useful tools for working with AJAX requests & JSON responses.
-  - Same behaviour for **non-AJAX** requests with single code (no if statements)
-  - For invalid `FormRequests` **renders HTML validation errors** - to ErrorBagContainer and FormGroup (Optional)
-  - If JSON contains redirect key it redirects page. @see AjaxService
-
+  - **Unobtrusive** - Same behaviour for **non-AJAX** requests with single code (no if statements)
+  - Invalid `FormRequests` **renders HTML validation errors** to ErrorBagContainer and FormGroup (Optional)
+  - Support clientside **@section redraw** and **redirects**. @see `Ajax` Service
 
 Installation
 ------------
@@ -72,7 +71,7 @@ Configuration, extending or modifying laravel.ajax module
     laravel.errors.showErrorsBag = true;
     laravel.errors.showErrorsInFormGroup = false;
 
-    //extending or modifying laravel.ajax module
+    //modifying laravel.ajax module
     var laravel.ajax.superSuccessHandler = laravel.ajax.successHandler;
     laravel.ajax.successHandler = function(payload) {
         //custom logic here
@@ -83,6 +82,9 @@ Configuration, extending or modifying laravel.ajax module
         //or call super success handler
         laravel.ajax.superSuccessHandler();
     };
+    
+    //extending module
+    laravel.helper = function(){ ...  };
 ~~~~~
 
 ## BackEnd
