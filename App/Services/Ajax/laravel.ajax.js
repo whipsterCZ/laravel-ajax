@@ -73,7 +73,6 @@ var laravel = (function($, laravel){
             return;
         }
         // redraw sections
-        console.info(payload.sections.length);
         if (payload.sections) {
             laravel.redrawSections(payload.sections);
         }
