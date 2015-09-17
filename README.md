@@ -73,6 +73,14 @@ javascript validation configuration
     laravel.errors.errorBagContainer = $('#errors');
     laravel.errors.showErrorsBag = true;
     laravel.errors.showErrorsInFormGroup = false;
+
+    //extending or modifying laravel.ajax module
+    var laravel.ajax.superSuccessHandler = laravel.ajax.successHandler;
+    laravel.ajax.successHandler = function(payload) {
+        //custom logic here
+        laravel.redirect(payload.redirect);
+        //or call super success handler
+    };
 ~~~~~
 
 ## BackEnd
