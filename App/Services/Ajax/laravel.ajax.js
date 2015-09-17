@@ -176,11 +176,15 @@ var laravel = (function($, laravel){
             laravel.errors.errorBagContainer.append($errorBag);
         }
     };
-    laravel.errors.renderValidationFormGroup = function(fieldName,errors,form) {
+    laravel.errors.renderValidationFormGroup = function(fieldName,errors,form,shouldFocus) {
         var field = $(form).find('[name="'+fieldName+'"]');
         //var formGroup =  field.closest('.form-group');
         var formGroup = field.parent();
         //console.info(fieldName,errors,field,form);
+
+        if (shouldFocus) {
+            field.focus();
+        }
 
         //add form group error class
         formGroup.addClass('has-error');
@@ -201,11 +205,13 @@ var laravel = (function($, laravel){
         //render errors to errorBag container
         laravel.errors.renderValidationErrorBag(errors);
 
+        var isFirstError = true;
         for (var fieldName in errors) {
             if (errors.hasOwnProperty(fieldName)) {
                 var fieldErrors = errors[fieldName];
                 //console.info(field,fieldErrors);
-                laravel.errors.renderValidationFormGroup(fieldName,fieldErrors,form);
+                laravel.errors.renderValidationFormGroup(fieldName,fieldErrors,form, isFirstError);
+                isFirstError = false;
             }
         }
     };
