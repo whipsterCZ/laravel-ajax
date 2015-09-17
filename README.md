@@ -1,7 +1,6 @@
 # Laravel-Ajax : javascript + AjaxService (Framework Extension)
 
-  - Helps automate javascript ajax requests and JSON responses.
-  - Provides useful tools for working with JSON responses.
+  - Provides useful tools for working with AJAX requests & JSON responses.
   - Same behaviour for NON-AJAX requests with single code (no if statements)
   - For invalid FormRequests **renders HTML validation errors** - to ErrorBagContainer and FormGroup (Optional)
   - If JSON contains redirect key it redirects page. @seeE AjaxService
