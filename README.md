@@ -51,7 +51,7 @@ to AJAXify your HTML just add `ajax` class to your Forms or Anchors
 <a href="" class="ajax">
 ~~~~~
 
-ajax success request handler expect JSON containing some of these keys
+**Ajax success** request handler expect JSON containing some of these keys
 ~~~~~ javascript
 {
 	redirect: 'absoluteUrl', //page to redirect
@@ -65,10 +65,10 @@ ajax success request handler expect JSON containing some of these keys
 }
 ~~~~~
 
-ajax error request handler recognize which error occurs.
-in case of Error **422 Unprocessable Entity** - Show validation errors
+**Ajax error** request handler recognize which error occurs.
+in case of Error **422 Unprocessable Entity** display validation errors
 
-javascript validation configuration
+Configuration, extending or modifying laravel.ajax module
 ~~~~~ javascript
     laravel.errors.errorBagContainer = $('#errors');
     laravel.errors.showErrorsBag = true;
@@ -78,24 +78,27 @@ javascript validation configuration
     var laravel.ajax.superSuccessHandler = laravel.ajax.successHandler;
     laravel.ajax.successHandler = function(payload) {
         //custom logic here
+
+        //using one of laravel helpers
         laravel.redirect(payload.redirect);
+
         //or call super success handler
+        laravel.ajax.superSuccessHandler();
     };
 ~~~~~
 
 ## BackEnd
 
-Ajax Service provides you a Factory for your response. It is designed to simplify your work and communication with frontend.
+Ajax Service provides you a **Factory for your response**. It is designed to simplify your work and communication with frontend.
 
-Ajax Service also recognize if request is **XmlHttpRequest** and return **JsonResponse**, in other case returns regular Http\Response or Http\RedirectResponse
+Ajax Service recognize if request is **XmlHttpRequest** and return `JsonResponse`, in other case returns regular `Http\Response` or `Http\RedirectResponse`
 
 Getting service
 ~~~~~ php
 //Dependency injection with TypeHint
 public function(\App\Services\Ajax\Ajax $ajax) {
 	$ajax = app('ajax'); //by resolving from IoC container
-	\Ajax::redirect(route('home'));  //Using Facade
-}
+	$ajax = \Ajax::instance();  //Using Facade
 ~~~~~
 
 Rendering or sending data
@@ -103,31 +106,32 @@ Rendering or sending data
 	$ajax->redrawSection('comments');
 	...
 	return $ajax->view('posts.show', $data )
+}
 ~~~~~
 
 Redirecting
 ~~~~~ php
-    public function update(ClientRequest $request, Client $client)
-    {
-        $client->update($request->all());
-        $request->session()->flash('success', 'Client has been updated.');
+public function update(ClientRequest $request, Client $client)
+{
+    $client->update($request->all());
+    $request->session()->flash('success', 'Client has been updated.');
 
-	    return \Ajax::redirect(route('clients.index'));
-    }
+    return \Ajax::redirect(route('clients.index'));
+}
 ~~~~~
 
 You can also use helper methods with fluent API
 ~~~~~ php
-	Route::get('test',function(\App\Services\Ajax\Ajax $ajax){
-		return $ajax
-			->setJson([])  //set your custom json data
-			->redrawSection('content') // redraw HTML inside element HTML with id="content"
-			->runJavascript('alert("hello");') //evaluate javascript
-			->dump() //enable console.info of sent JSON
-			->alert('test') //alert popup with message
-			->scrollTo('elementID')
-			->view('crm.clients.test');
-	});
+Route::get('test',function(\App\Services\Ajax\Ajax $ajax){
+	return $ajax
+		->setJson([])  //set your custom json data
+		->redrawSection('content') // redraw HTML inside element HTML with id="content"
+		->runJavascript('alert("hello");') //evaluate javascript
+		->dump() //enable console.info of sent JSON
+		->alert('test') //alert popup with message
+		->scrollTo('elementID')
+		->view('crm.clients.test');
+});
 ~~~~~
 
 

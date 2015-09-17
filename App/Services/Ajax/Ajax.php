@@ -143,8 +143,20 @@ class Ajax {
 		$this->json = $data;
 	}
 
+	/**
+	 * Scrolls to html element
+	 * @param $htmlID
+	 * @return $this
+	 */
 	public function scrollTo($htmlID){
 		$this->json['scrollTo'] = $htmlID;
+		return $this;
+	}
+
+	/**
+	 * @return $this
+	 */
+	public function instance(){
 		return $this;
 	}
 
