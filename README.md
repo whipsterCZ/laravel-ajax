@@ -26,7 +26,7 @@ app/Services/Ajax/
 ~~~~~
 
 
-3) Copy **laravel.ajax.js** to your **public/js** directory or run command
+3) Copy App/Services/Ajax/**laravel.ajax.js** to your **public/js** directory or run command
 ~~~~~ php
 php artisan vendor:publish --tag=public --force
 ~~~~~
