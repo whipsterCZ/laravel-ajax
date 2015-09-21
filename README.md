@@ -101,10 +101,10 @@ public function(\App\Services\Ajax\Ajax $ajax) {
 	$ajax = \Ajax::instance();  //Using Facade
 ~~~~~
 
-Rendering or sending data
+Rendering Views
 ~~~~~ php
-	$ajax->redrawSection('comments');
-	$ajax->json = $data; //setting custom data (custom ajax success handler needed)
+	$ajax->redrawSection('comments');  //view has @sections
+	$ajax->redrawView('htmlID'); //if view don't have any sections.
 	...
 	return $ajax->view('posts.show', $data )
 }
@@ -118,6 +118,15 @@ public function update(ClientRequest $request, Client $client)
     $request->session()->flash('success', 'Client has been updated.');
 
     return \Ajax::redirect(route('clients.index'));
+}
+~~~~~
+
+Sending custom data
+~~~~~ php
+public function getData(\App\Services\Ajax\Ajax $ajax) {
+	...
+	$ajax->json = $data; //setting custom data (custom ajax success handler needed)
+	return $ajax->jsonResponse();
 }
 ~~~~~
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: whipstercz
- * Date: 16/09/15
- * Time: 20:02
  */
 
 namespace App\Services\Ajax;
@@ -90,6 +87,13 @@ class Ajax {
 		return $viewResponse;
 	}
 
+	/**
+	 * Create JSON response
+	 * @return JsonResponse
+	 */
+	public function jsonResponse(){
+		return \Response::json($this->json);
+	}
 
 	/**
 	 * HTML redraw for blade @section($name) inside element HTML with id="$name"
@@ -151,13 +155,6 @@ class Ajax {
 		return $this;
 	}
 
-	/**
-	 * Create JSON response
-	 * @return JsonResponse
-	 */
-	protected function jsonResponse(){
-		return \Response::json($this->json);
-	}
 
 
 	public function is(){

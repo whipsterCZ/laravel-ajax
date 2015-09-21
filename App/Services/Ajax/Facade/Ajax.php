@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
  * User: whipstercz
- * Date: 16/09/15
- * Time: 19:58
  */
 
 namespace App\Services\Ajax\Facade;
