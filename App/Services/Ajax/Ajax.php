@@ -9,7 +9,9 @@
 namespace App\Services\Ajax;
 
 
+use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 
 
 class Ajax {
@@ -20,7 +22,18 @@ class Ajax {
 	 */
 	public $json = [];
 
+	/**
+	 * sections witch will be filled form View @sections
+	 * @var array
+	 */
 	protected $sections = [];
+
+
+	/**
+	 * If is set, whole View will be sent. No sections will be sent
+	 * @var null|string HTML ID
+	 */
+	protected $viewHtmlID = null;
 
 	/**
 	 * Get an instance of the redirector.
@@ -29,13 +42,13 @@ class Ajax {
 	 * @param  int     $status
 	 * @param  array   $headers
 	 * @param  bool    $secure
-	 * @return Illuminate\Http\RedirectResponse|JsonResponse
+	 * @return RedirectResponse|JsonResponse
 	 */
 	function redirect($to, $status = 302, $headers = [], $secure = null)
 	{
 		$this->json['redirect'] = $to;
-		if ($this->isAjax()) {
-			return $this->response();
+		if ($this->is()) {
+			return $this->jsonResponse();
 		}
 		return app('redirect')->to($to, $status, $headers, $secure);
 	}
@@ -44,23 +57,39 @@ class Ajax {
 	 * @param $view
 	 * @param array $data
 	 * @param array $mergeData
-	 * @return \Illuminate\Contracts\View\View|JsonResponse
+	 * @return View|JsonResponse
 	 */
 	public function view($view, $data = [], $mergeData = []){
 		$viewResponse = \View::make($view,$data,$mergeData);
 
-		if ($this->isAjax()) {
-			$sectionsRenderer = $viewResponse->renderSections();
-			//sending section snippets
-			foreach($this->sections as $section)  {
-				if ( $content = $sectionsRenderer[$section] ) {
-					$this->json['sections'][$section] = $content;
+		//in case of AJAX
+		if ($this->is()) {
+
+			if ($this->viewHtmlID) {
+				//render whole view
+				$this->json['sections'][$this->viewHtmlID] = $viewResponse->render();
+
+			} else {
+				//rendering view sections
+				$sectionsRenderer = $viewResponse->renderSections();
+
+				if( is_string($sectionsRenderer)) {
+					$this->alert('View has no @sections to be rendered');
+				} else {
+					//sending section snippets
+					foreach ($this->sections as $section) {
+						if ($content = $sectionsRenderer[$section]) {
+							$this->json['sections'][$section] = $content;
+						}
+					}
 				}
 			}
-			return $this->response();
+			return $this->jsonResponse();
 		}
+
 		return $viewResponse;
 	}
+
 
 	/**
 	 * HTML redraw for blade @section($name) inside element HTML with id="$name"
@@ -69,7 +98,7 @@ class Ajax {
 	 */
 	public function redrawSection($name){
 		if ( is_null($this->sections) ) {
-			$this->sections = new Collection();
+			$this->sections = [];
 		}
 		if ( !in_array($name,$this->sections)) {
 			$this->sections[] = $name;
@@ -124,14 +153,14 @@ class Ajax {
 
 	/**
 	 * Create JSON response
-	 * @return \Illuminate\Http\JsonResponse
+	 * @return JsonResponse
 	 */
-	protected function response(){
+	protected function jsonResponse(){
 		return \Response::json($this->json);
 	}
 
 
-	public function isAjax(){
+	public function is(){
 		return \Request::ajax();
 	}
 
@@ -154,9 +183,21 @@ class Ajax {
 	}
 
 	/**
+	 * get service instance
 	 * @return $this
 	 */
 	public function instance(){
+		return $this;
+	}
+
+	/**
+	 * Whole view will be send while skipping section renderer.
+	 * @param $htmlID
+	 * @return $this;
+	 */
+	public function redrawView($htmlID)
+	{
+		$this->viewHtmlID = $htmlID;
 		return $this;
 	}
 

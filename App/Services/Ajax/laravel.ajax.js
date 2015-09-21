@@ -1,6 +1,7 @@
 /**
  * Laravel AJAX Support with Form Validation
  *
+ * @dependency jQuery >2
  * @dependency CSS BOOTSRAP >=3
  * @dependency HTML <meta name="_token" content="{!! csrf_token() !!}"/>
  * @autor Daniel Kouba whipstercz@gmail.com
@@ -12,7 +13,7 @@ var laravel = (function($, laravel){
     //Configuration validation
     laravel.errors.errorBagContainer = $('#errors');
     laravel.errors.showErrorsBag = true;
-    laravel.errors.showErrorsInFormGroup = false;
+    laravel.errors.showErrorsInFormGroup = true;
 
     laravel.ajax.init = function(){
         //Setting default AJAX behaviours
@@ -104,6 +105,8 @@ var laravel = (function($, laravel){
             laravel.alert('Sorry. Requested page "'+ url +'" not found')
         } else if ( status == 200) { //OK but not really :)
             laravel.alert('Sorry. Response is not valid JSON');
+        } else if ( status == 0) {
+            //Aborted request
         } else {
             laravel.alert(event.statusText);
         }
@@ -178,6 +181,12 @@ var laravel = (function($, laravel){
     };
     laravel.errors.renderValidationFormGroup = function(fieldName,errors,form,shouldFocus) {
         var field = $(form).find('[name="'+fieldName+'"]');
+        if ( field.length == 0) {
+            field = $(form).find('[name="'+fieldName+'[]"]');
+        }
+        if ( field.length == 0) {
+            field = $(form).find('#'+fieldName);
+        }
         //var formGroup =  field.closest('.form-group');
         var formGroup = field.parent();
         //console.info(fieldName,errors,field,form);
