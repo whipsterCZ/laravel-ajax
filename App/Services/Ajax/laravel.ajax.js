@@ -13,7 +13,7 @@ var laravel = (function($, laravel){
     //Configuration validation
     laravel.errors.errorBagContainer = $('#errors');
     laravel.errors.showErrorsBag = true;
-    laravel.errors.showErrorsInFormGroup = true;
+    laravel.errors.showErrorsInFormGroup = false;
 
     laravel.ajax.init = function(){
         //Setting default AJAX behaviours
