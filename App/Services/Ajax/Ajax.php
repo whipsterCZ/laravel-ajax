@@ -51,6 +51,20 @@ class Ajax {
 	}
 
 	/**
+	 * Redirect to previous URL
+	 * 
+	 * @param int $status
+	 * @param array $headers
+	 * @return JsonResponse|RedirectResponse
+	 */
+	function redirectBack($status = 302, $headers = []) {
+		$url = app('Illuminate\Routing\UrlGenerator')->previous();
+		return $this->redirect($url,$status, $headers);
+	}
+
+	/**
+	 * Renders view
+	 *
 	 * @param $view
 	 * @param array $data
 	 * @param array $mergeData
