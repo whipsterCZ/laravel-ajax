@@ -52,7 +52,7 @@ class Ajax {
 
 	/**
 	 * Redirect to previous URL
-	 * 
+	 *
 	 * @param int $status
 	 * @param array $headers
 	 * @return JsonResponse|RedirectResponse
