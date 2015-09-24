@@ -16,6 +16,12 @@ var laravel = (function($, laravel){
     laravel.errors.showErrorsInFormGroup = false;
 
     laravel.ajax.init = function(){
+        //Adding info about submit trigger
+        $("input[type=submit], button",$('form.ajax')).click(function(event){
+            var submittedBy = $(this).attr('name') || $(this).attr('value');
+            $(this).closest('form').attr('data-submitted-by',submittedBy);
+        });
+
         //Setting default AJAX behaviours
         $.ajaxSetup({
             success: laravel.ajax.successHandler ,
@@ -31,7 +37,7 @@ var laravel = (function($, laravel){
             $.ajax({
                 type: $(this).attr('method'),
                 url: $(this).attr('action'),
-                data: $(this).serialize(),
+                data: laravel.ajax.formData(this),
                 context: {
                     sender: event.target,
                     url: $(this).attr('action')
@@ -110,6 +116,14 @@ var laravel = (function($, laravel){
         } else {
             laravel.alert(event.statusText);
         }
+    };
+    laravel.ajax.formData = function(form) {
+        var $form = $(form);
+        var submittedBy = $form.attr('data-submitted-by');
+        //var data = $form.serialize();
+        var data = $form.serializeArray();
+        data.push({name:'submitted-by',value:submittedBy});
+        return data;
     };
 
 
