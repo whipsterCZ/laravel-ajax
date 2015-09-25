@@ -119,10 +119,13 @@ var laravel = (function($, laravel){
     };
     laravel.ajax.formData = function(form) {
         var $form = $(form);
+        var data = $form.serializeArray();
         var submittedBy = $form.attr('data-submitted-by');
         //var data = $form.serialize();
-        var data = $form.serializeArray();
-        data.push({name:'submitted-by',value:submittedBy});
+        if (submittedBy != undefined) {
+            data.push({name:'submitted-by',value:submittedBy});
+            data.push({name:submittedBy,value:'submitted-by'});
+        }
         return data;
     };
 
