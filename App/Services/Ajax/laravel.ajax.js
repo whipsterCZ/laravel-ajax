@@ -6,7 +6,7 @@
  * @dependency HTML <meta name="_token" content="{!! csrf_token() !!}"/>
  * @autor Daniel Kouba whipstercz@gmail.com
  */
-var laravel = (function($, laravel){
+var laravel = (function ($, laravel) {
     laravel.ajax = {};
     laravel.errors = laravel.errors || {};
 
@@ -15,18 +15,18 @@ var laravel = (function($, laravel){
     laravel.errors.showErrorsBag = true;
     laravel.errors.showErrorsInFormGroup = false;
 
-    laravel.ajax.init = function(){
+    laravel.ajax.init = function () {
         //Adding info about submit trigger
-        $("input[type=submit], button",$('form.ajax')).click(function(event){
+        $("input[type=submit], button", $('form.ajax')).click(function (event) {
             var submittedBy = $(this).attr('name') || $(this).attr('value');
-            $(this).closest('form').attr('data-submitted-by',submittedBy);
+            $(this).closest('form').attr('data-submitted-by', submittedBy);
         });
 
         //Setting default AJAX behaviours
         $.ajaxSetup({
-            success: laravel.ajax.successHandler ,
+            success: laravel.ajax.successHandler,
             error: laravel.ajax.errorHandler,
-            headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') },
+            headers: {'X-CSRF-Token': $('meta[name=_token]').attr('content')},
             dataType: "json",
             method: 'GET'
         });
@@ -46,7 +46,7 @@ var laravel = (function($, laravel){
         });
 
         //AJAX requests for links.ajax
-        $(document).on('click','a.ajax' , function (event) {
+        $(document).on('click', 'a.ajax', function (event) {
             event.preventDefault();
             $.ajax({
                 url: this.href,
@@ -60,7 +60,7 @@ var laravel = (function($, laravel){
 
 
     //AJAX response handlers
-    laravel.ajax.successHandler = function(payload) {
+    laravel.ajax.successHandler = function (payload) {
         //console.info('ajax success',this,  payload);
         //var sender = this.sender;
         //var url = this.url;
@@ -94,7 +94,7 @@ var laravel = (function($, laravel){
             eval(payload.runJavascript);
         }
     };
-    laravel.ajax.errorHandler = function(event) {
+    laravel.ajax.errorHandler = function (event) {
         var sender = this.sender;
         var url = this.url;
         var payload = event.responseJSON;
@@ -103,80 +103,79 @@ var laravel = (function($, laravel){
 
         if (status == 422) {  //validation Error
             laravel.errors.clearValidation(sender);
-            laravel.errors.renderValidation(payload,sender);
+            laravel.errors.renderValidation(payload, sender);
             //laravel.alert("Sorry. There were validation errors");
         } else if (status == 403) { //forbidden
             laravel.alert("Sorry. You don't have permission for requested page")
         } else if (status == 404) { //not found
-            laravel.alert('Sorry. Requested page "'+ url +'" not found')
-        } else if ( status == 200) { //OK but not really :)
+            laravel.alert('Sorry. Requested page "' + url + '" not found')
+        } else if (status == 200) { //OK but not really :)
             laravel.alert('Sorry. Response is not valid JSON');
-        } else if ( status == 0) {
+        } else if (status == 0) {
             //Aborted request
         } else {
             laravel.alert(event.statusText);
         }
     };
-    laravel.ajax.formData = function(form) {
+    laravel.ajax.formData = function (form) {
         var $form = $(form);
         var data = $form.serializeArray();
         var submittedBy = $form.attr('data-submitted-by');
         //var data = $form.serialize();
         if (submittedBy != undefined) {
-            data.push({name:'submitted-by',value:submittedBy});
-            data.push({name:submittedBy,value:'submitted-by'});
+            data.push({name: 'submitted-by', value: submittedBy});
+            data.push({name: submittedBy, value: 'submitted-by'});
         }
         return data;
     };
 
 
     //defining helpers
-    laravel.redrawSection = function(element,html){
-        if (( typeof element )=='string'){
+    laravel.redrawSection = function (element, html) {
+        if (( typeof element ) == 'string') {
             element = $("#" + element)
         } else {
             element = $(element);
         }
         element.html(html);
     };
-    laravel.redrawSections = function(sections){
+    laravel.redrawSections = function (sections) {
         for (var elementId in sections) {
-            laravel.redrawSection(elementId,sections[elementId]);
+            laravel.redrawSection(elementId, sections[elementId]);
         }
     };
-    laravel.dump = function(data) {
+    laravel.dump = function (data) {
         if (window.console) {
             console.info(data);
         }
     };
-    laravel.redirect = function(url) {
+    laravel.redirect = function (url) {
         window.location.href = url;
     };
-    laravel.alert = function(message){
+    laravel.alert = function (message) {
         alert(message);
     };
-    laravel.scrollTo = function(elementId) {
+    laravel.scrollTo = function (elementId) {
         $('html, body').animate({
-            scrollTop: $("#"+elementId).offset().top
+            scrollTop: $("#" + elementId).offset().top
         }, 2000);
     };
 
 
-
     //laravel error handling
-    laravel.errors.clearValidation = function(form) {
+    laravel.errors.clearValidation = function (form) {
         //remove errorBag element id='error'
-        if ( laravel.errors.showErrorsBag && laravel.errors.errorBagContainer.length>0) {
+        if (laravel.errors.showErrorsBag && laravel.errors.errorBagContainer.length > 0) {
             laravel.errors.errorBagContainer.html('');
         }
         //remove existing error classes and error messages from form groups
-        if ( laravel.errors.showErrorsInFormGroup) {
+        if (laravel.errors.showErrorsInFormGroup) {
             $(form).find('.has-error .help-block').text('');
         }
         $(form).find('.has-error').removeClass('has-error');
     };
-    laravel.errors.renderValidationErrorBag = function(errors) {
-        if ( laravel.errors.showErrorsBag ) {
+    laravel.errors.renderValidationErrorBag = function (errors) {
+        if (laravel.errors.showErrorsBag) {
 
             var $ul = $('<ul></ul>');
             for (var fieldName in errors) {
@@ -188,7 +187,7 @@ var laravel = (function($, laravel){
                     });
                 }
             }
-            if ( laravel.errors.errorBagContainer.length == 0) {
+            if (laravel.errors.errorBagContainer.length == 0) {
                 laravel.alert("ErrorBag display container haven't been found");
             }
             var $errorBag = $('<div class="alert alert-danger"></div>');
@@ -196,16 +195,19 @@ var laravel = (function($, laravel){
             laravel.errors.errorBagContainer.append($errorBag);
         }
     };
-    laravel.errors.renderValidationFormGroup = function(fieldName,errors,form,shouldFocus) {
-        var field = $(form).find('[name="'+fieldName+'"]');
-        if ( field.length == 0) {
-            field = $(form).find('[name="'+fieldName+'[]"]');
+    laravel.errors.renderValidationFormGroup = function (fieldName, errors, form, shouldFocus) {
+        //console.info(fieldName,errors,form.shouldFocus);
+        var field = $(form).find('[name="' + fieldName + '"]');
+        if (field.length == 0) {
+            field = $(form).find('[name="' + fieldName + '[]"]');
         }
-        if ( field.length == 0) {
-            field = $(form).find('#'+fieldName);
+        if (field.length == 0) {
+            field = $(form).find('#' + fieldName);
         }
-        //var formGroup =  field.closest('.form-group');
-        var formGroup = field.parent();
+        var formGroup = field.closest('.form-group');
+        if (formGroup.length == 0) {
+            var formGroup = field.parent();
+        }
         //console.info(fieldName,errors,field,form);
 
         if (shouldFocus) {
@@ -215,7 +217,7 @@ var laravel = (function($, laravel){
         //add form group error class
         formGroup.addClass('has-error');
         //add form group error message
-        if ( laravel.errors.showErrorsInFormGroup ) {
+        if (laravel.errors.showErrorsInFormGroup) {
             var $span = formGroup.find('.help-block');
             if ($span.length == 0) {
                 $span = $('<span class="help-block"></span>');
@@ -224,7 +226,7 @@ var laravel = (function($, laravel){
             $span.text(errors.join(', '));
         }
     };
-    laravel.errors.renderValidation = function (errors,form) {
+    laravel.errors.renderValidation = function (errors, form) {
         form = form || document;
         //console.info(errors);
 
@@ -236,12 +238,26 @@ var laravel = (function($, laravel){
             if (errors.hasOwnProperty(fieldName)) {
                 var fieldErrors = errors[fieldName];
                 //console.info(field,fieldErrors);
-                laravel.errors.renderValidationFormGroup(fieldName,fieldErrors,form, isFirstError);
+                fieldName = laravel.errors.sanitizeFieldName(fieldName);
+                laravel.errors.renderValidationFormGroup(fieldName, fieldErrors, form, isFirstError);
                 isFirstError = false;
             }
         }
     };
+    laravel.errors.sanitizeFieldName = function (name) {
+        // converts  notation from dot to array - offices.0.id => offices[0][id]
+        var chunks = name.split(".");
+        if (chunks.length > 1) {
+            var sanitized = chunks[0];
+            for (i = 1; i < chunks.length; i++) {
+                var chunk = chunks[i];
+                sanitized = sanitized + "[" + chunk + "]";
+            }
+            return sanitized;
+        }
+        return name;
+    };
 
     laravel.ajax.init();
     return laravel;
-})(jQuery, laravel || {} );
+})(jQuery, laravel || {});
