@@ -103,8 +103,11 @@ public function(\App\Services\Ajax\Ajax $ajax) {
 
 Rendering Views
 ~~~~~ php
-	$ajax->redrawSection('comments');  //view has @sections
+	$ajax->redrawSection('comments');  // we can redraw section(s) if view has @section(s)
+	//or
 	$ajax->redrawView('htmlID'); //if view don't have any sections.
+	//or
+	$ajax->appendView('htmlID'); //if we want to append HTML instead of replace
 	...
 	return $ajax->view('posts.show', $data )
 }

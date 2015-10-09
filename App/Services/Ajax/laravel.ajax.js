@@ -24,8 +24,6 @@ var laravel = (function ($, laravel) {
 
         //Setting default AJAX behaviours
         $.ajaxSetup({
-            success: laravel.ajax.successHandler,
-            error: laravel.ajax.errorHandler,
             headers: {'X-CSRF-Token': $('meta[name=_token]').attr('content')},
             dataType: "json",
             method: 'GET'
@@ -41,7 +39,9 @@ var laravel = (function ($, laravel) {
                 context: {
                     sender: event.target,
                     url: $(this).attr('action')
-                }
+                },
+                success: laravel.ajax.successHandler,
+                error: laravel.ajax.errorHandler
             })
         });
 
@@ -53,7 +53,9 @@ var laravel = (function ($, laravel) {
                 context: {
                     sender: event.target,
                     url: this.href
-                }
+                },
+                success: laravel.ajax.successHandler,
+                error: laravel.ajax.errorHandler
             });
         });
     };
@@ -79,9 +81,13 @@ var laravel = (function ($, laravel) {
             laravel.redirect(payload.redirect);
             return;
         }
-        // redraw sections
+        // render sections
         if (payload.sections) {
-            laravel.redrawSections(payload.sections);
+            if ( payload.drawMode == 'append') {
+                laravel.appendSections(payload.sections);
+            } else {
+                laravel.redrawSections(payload.sections);
+            }
         }
 
         //page scrollTo elementID
@@ -143,6 +149,19 @@ var laravel = (function ($, laravel) {
         for (var elementId in sections) {
             laravel.redrawSection(elementId, sections[elementId]);
         }
+    };
+    laravel.appendSections = function (sections) {
+        for (var elementId in sections) {
+            laravel.appendSection(elementId, sections[elementId]);
+        }
+    };
+    laravel.appendSection = function (element, html) {
+        if (( typeof element ) == 'string') {
+            element = $("#" + element)
+        } else {
+            element = $(element);
+        }
+        element.append(html);
     };
     laravel.dump = function (data) {
         if (window.console) {
