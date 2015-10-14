@@ -13,6 +13,9 @@ use Illuminate\Http\RedirectResponse;
 
 class Ajax {
 
+	const VIEW_REDRAW = "redraw";
+	const VIEW_APPEND = "append";
+
 	/**
 	 * This is array which will be return as JsonResponse
 	 * @var array
@@ -31,6 +34,8 @@ class Ajax {
 	 * @var null|string HTML ID
 	 */
 	protected $viewHtmlID = null;
+
+	protected $viewRenderingMode = self::VIEW_REDRAW;
 
 	/**
 	 * Get an instance of the redirector.
@@ -94,6 +99,9 @@ class Ajax {
 						}
 					}
 				}
+			}
+			if ( $this->viewRenderingMode != self::VIEW_REDRAW) {
+				$this->json['drawMode'] = $this->viewRenderingMode;
 			}
 			return $this->jsonResponse();
 		}
@@ -208,6 +216,18 @@ class Ajax {
 	 */
 	public function redrawView($htmlID)
 	{
+		$this->viewRenderingMode = self::VIEW_REDRAW;
+		$this->viewHtmlID = $htmlID;
+		return $this;
+	}
+
+	/**
+	 * Whole view will be appended to into HTML container
+	 * @param $htmlID
+	 * @return $this
+	 */
+	public function appendView($htmlID){
+		$this->viewRenderingMode = self::VIEW_APPEND;
 		$this->viewHtmlID = $htmlID;
 		return $this;
 	}

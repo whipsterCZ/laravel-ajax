@@ -223,10 +223,7 @@ var laravel = (function ($, laravel) {
         if (field.length == 0) {
             field = $(form).find('#' + fieldName);
         }
-        var formGroup = field.closest('.form-group');
-        if (formGroup.length == 0) {
-            var formGroup = field.parent();
-        }
+        var formGroup = field.parent();
         //console.info(fieldName,errors,field,form);
 
         if (shouldFocus) {
