@@ -50,7 +50,8 @@ to AJAXify your HTML just add `ajax` class to your Forms or Anchors
 <a href="" class="ajax">
 ~~~~~
 
-**Ajax success** request handler expect JSON containing some of these keys
+### Ajax success
+Ajax success request handler expect JSON containing some of these keys
 ~~~~~ javascript
 {
 	redirect: 'absoluteUrl', //page to redirect
@@ -64,10 +65,11 @@ to AJAXify your HTML just add `ajax` class to your Forms or Anchors
 }
 ~~~~~
 
+### Ajax error
 **Ajax error** request handler recognize which error occurs.
 in case of Error **422 Unprocessable Entity** display validation errors
 
-Configuration, extending or modifying laravel.ajax module
+### Configuration, extending or modifying laravel.ajax module
 ~~~~~ javascript
 	<script src="/js/laravel.ajax.js"></script>
 	<script>
@@ -98,7 +100,7 @@ Ajax Service provides you a **Factory for your response**. It is designed to sim
 
 Ajax Service recognize if request is **XmlHttpRequest** and return `JsonResponse`, in other case returns regular `Http\Response` or `Http\RedirectResponse`
 
-Getting service
+###Getting service
 ~~~~~ php
 //Dependency injection with TypeHint
 public function(\App\Services\Ajax\Ajax $ajax) {
@@ -106,7 +108,7 @@ public function(\App\Services\Ajax\Ajax $ajax) {
 	$ajax = \Ajax::instance();  //Using Facade
 ~~~~~
 
-Rendering Views
+###Rendering Views
 ~~~~~ php
 	$ajax->redrawSection('comments');  // we can redraw section(s) if view has @section(s)
 	//or
@@ -118,7 +120,7 @@ Rendering Views
 }
 ~~~~~
 
-Redirecting
+###Redirecting
 ~~~~~ php
 public function update(ClientRequest $request, Client $client)
 {
@@ -129,7 +131,7 @@ public function update(ClientRequest $request, Client $client)
 }
 ~~~~~
 
-Sending custom data
+###Sending custom data
 ~~~~~ php
 public function getData(\App\Services\Ajax\Ajax $ajax) {
 	...
@@ -138,7 +140,7 @@ public function getData(\App\Services\Ajax\Ajax $ajax) {
 }
 ~~~~~
 
-Manually Creating Validation Error Response
+###Manually Creating Validation Error Response
 ~~~~~ php
 public function store()
 {
@@ -151,6 +153,8 @@ public function store()
 }
 ~~~~~
 
+
+###Fluent API
 You can also use helper methods with fluent API
 ~~~~~ php
 Route::get('test',function(\App\Services\Ajax\Ajax $ajax){
