@@ -2,8 +2,10 @@
 
   - Provides useful tools for working with AJAX requests & JSON responses.
   - **Unobtrusive** - Same behaviour for **non-AJAX** requests with single code (no if statements)
-  - Invalid `FormRequests` **renders HTML validation errors** to ErrorBagContainer and FormGroup (Optional)
+  - YES - it can be used for processing **FORMs via AJAX** out of the box!
+  - Invalid `FormRequests` **display HTML validation errors** both to *ErrorBagContainer* and *FormGroup (Optional)*
   - Support clientside **@section redraw** and **redirects**. @see `Ajax` Service
+  - Only dependencies are jQuery1.8> nad Laravel 4> 
 
 Installation
 ------------
@@ -67,11 +69,13 @@ in case of Error **422 Unprocessable Entity** display validation errors
 
 Configuration, extending or modifying laravel.ajax module
 ~~~~~ javascript
+	<script src="/js/laravel.ajax.js"></script>
+	<script>
     laravel.errors.errorBagContainer = $('#errors');
     laravel.errors.showErrorsBag = true;
     laravel.errors.showErrorsInFormGroup = false;
 
-    //modifying laravel.ajax module
+    //modifying laravel.ajax handlers
     var laravel.ajax.superSuccessHandler = laravel.ajax.successHandler;
     laravel.ajax.successHandler = function(payload) {
         //custom logic here
@@ -83,8 +87,9 @@ Configuration, extending or modifying laravel.ajax module
         laravel.ajax.superSuccessHandler();
     };
     
-    //extending module
+    //creating extensions or helper 
     laravel.helper = function(){ ...  };
+    </script>
 ~~~~~
 
 ## BackEnd
