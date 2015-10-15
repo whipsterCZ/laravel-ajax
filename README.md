@@ -1,4 +1,4 @@
-# Laravel-Ajax : javascript + AjaxService (Framework Extension)
+# Laravel-Ajax : AJAX Requests, Responses and Tools. AJAX Forms with validation
 
   - Provides useful tools for working with AJAX requests & JSON responses.
   - **Unobtrusive** - Same behaviour for **non-AJAX** requests with single code (no if statements)
