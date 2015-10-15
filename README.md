@@ -133,6 +133,19 @@ public function getData(\App\Services\Ajax\Ajax $ajax) {
 }
 ~~~~~
 
+Manually Creating Validation Error Response
+~~~~~ php
+public function store()
+{
+    ...
+    $validator = Validator::make(Input::all(), $rules);
+	if ($validator->fails()) {
+		//if request is AJAX it only creates 422 Error Response and route will not be used..  
+        return \Ajax::redirectWithErrors(route('someRoute'),$validator); 
+    }
+}
+~~~~~
+
 You can also use helper methods with fluent API
 ~~~~~ php
 Route::get('test',function(\App\Services\Ajax\Ajax $ajax){

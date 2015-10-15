@@ -223,6 +223,7 @@ var laravel = (function ($, laravel) {
         if (field.length == 0) {
             field = $(form).find('#' + fieldName);
         }
+        field = field.not('[type="hidden"]').first();
         var formGroup = field.parent();
         //console.info(fieldName,errors,field,form);
 

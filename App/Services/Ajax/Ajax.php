@@ -6,6 +6,7 @@
 namespace App\Services\Ajax;
 
 
+use Illuminate\Contracts\Support\MessageProvider;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -110,11 +111,32 @@ class Ajax {
 	}
 
 	/**
+	 * Redirect to URL or create 402 Unprocessable Entity Response with errors
+	 * @param string $url
+	 * @param MessageProvider $provider
+	 */
+	public function redirectWithErrors($url,$provider){
+		if ($this->is()) {
+			$errors = $provider->getMessageBag();
+			if ($errors->count()) {
+				$this->json = $errors->toArray();
+				return $this->jsonResponse(422);
+			}
+			return $this->redirect($url);
+		} else {
+			return app('redirect')
+				->to($url)
+				->withErrors($provider)
+				->withInput();
+		}
+	}
+
+	/**
 	 * Create JSON response
 	 * @return JsonResponse
 	 */
-	public function jsonResponse(){
-		return \Response::json($this->json);
+	public function jsonResponse($status = null){
+		return \Response::json($this->json, $status);
 	}
 
 	/**
