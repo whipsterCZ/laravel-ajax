@@ -70,9 +70,9 @@ Ajax success request handler expect JSON containing some of these keys
 in case of Error **422 Unprocessable Entity** display validation errors
 
 ### Configuration, extending or modifying laravel.ajax module
-~~~~~ javascript
-	<script src="/js/laravel.ajax.js"></script>
-	<script>
+~~~~~ html
+<script src="/js/laravel.ajax.js"></script>
+<script>
     laravel.errors.errorBagContainer = $('#errors');
     laravel.errors.showErrorsBag = true;
     laravel.errors.showErrorsInFormGroup = false;
@@ -91,7 +91,7 @@ in case of Error **422 Unprocessable Entity** display validation errors
     
     //creating extensions or helper 
     laravel.helper = function(){ ...  };
-    </script>
+ </script>
 ~~~~~
 
 ## BackEnd
