@@ -51,7 +51,7 @@ class Ajax {
 	{
 		$this->json['redirect'] = $to;
 		if ($this->is()) {
-			return $this->jsonResponse();
+			return $this->jsonResponse($status);
 		}
 		return app('redirect')->to($to, $status, $headers, $secure);
 	}
@@ -135,7 +135,7 @@ class Ajax {
 	 * Create JSON response
 	 * @return JsonResponse
 	 */
-	public function jsonResponse($status = null){
+	public function jsonResponse($status = 200){
 		return \Response::json($this->json, $status);
 	}
 
