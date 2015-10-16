@@ -26,7 +26,7 @@ var laravel = (function ($, laravel) {
         $.ajaxSetup({
             headers: {'X-CSRF-Token': $('meta[name=_token]').attr('content')},
             dataType: "json",
-            method: 'GET'
+            type: 'GET'
         });
 
         //Sending form.ajax by AJAX
@@ -58,6 +58,21 @@ var laravel = (function ($, laravel) {
                 error: laravel.ajax.errorHandler
             });
         });
+    };
+
+    //User defined custom Ajax request
+    laravel.ajax.send = function(data){
+        data = data || {};
+        if (data.type == undefined) {
+            data.type = 'GET';
+        }
+        if (data.success == undefined) {
+            data.success = laravel.ajax.successHandler;
+        }
+        if (data.error == undefined) {
+            data.error = laravel.ajax.errorHandler;
+        }
+        $.ajax(data);
     };
 
 

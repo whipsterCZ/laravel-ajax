@@ -90,9 +90,25 @@ in case of Error **422 Unprocessable Entity** display validation errors
     };
     
     //creating extensions or helper 
-    laravel.helper = function(){ ...  };
+    laravel.helper = function(){ ...  };    
  </script>
 ~~~~~
+
+### Manually creating custom AJAX request
+You can always use standard `$.ajax(options)`, but this is useful shortcut 
+with  *JSON* ready *X-CSRF-Token* header set.
+~~~~~ html
+<script>
+    laravel.ajax.send({
+        url: "{{ route('my.route) }}",
+        type: 'GET', //optional,
+        success: function(){} //optional - default is laravel.ajax.successHandler
+        error: function(){} //optional - default is laravel.ajax.errorHandler                
+    });
+<script>
+~~~~~
+
+
 
 ## BackEnd
 
