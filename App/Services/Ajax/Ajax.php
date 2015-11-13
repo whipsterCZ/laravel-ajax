@@ -51,7 +51,7 @@ class Ajax {
 	{
 		$this->json['redirect'] = $to;
 		if ($this->is()) {
-			return $this->jsonResponse($status);
+			return $this->jsonResponse();
 		}
 		return app('redirect')->to($to, $status, $headers, $secure);
 	}
