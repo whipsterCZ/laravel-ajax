@@ -7,6 +7,7 @@
  * @autor Daniel Kouba whipstercz@gmail.com
  */
 var laravel = (function ($, laravel) {
+
     laravel.ajax = {};
     laravel.errors = laravel.errors || {};
 
@@ -24,9 +25,7 @@ var laravel = (function ($, laravel) {
 
         //Setting default AJAX behaviours
         $.ajaxSetup({
-            headers: {'X-CSRF-Token': $('meta[name=_token]').attr('content')},
-            dataType: "json",
-            type: 'GET'
+            headers: {'X-CSRF-Token': $('meta[name=_token]').attr('content')}
         });
 
         //Sending form.ajax by AJAX
@@ -36,6 +35,7 @@ var laravel = (function ($, laravel) {
                 type: $(this).attr('method'),
                 url: $(this).attr('action'),
                 data: laravel.ajax.formData(this),
+                dataType: "json",
                 context: {
                     sender: event.target,
                     url: $(this).attr('action')
@@ -50,6 +50,7 @@ var laravel = (function ($, laravel) {
             event.preventDefault();
             $.ajax({
                 url: this.href,
+                dataType: "json",
                 context: {
                     sender: event.target,
                     url: this.href
@@ -65,6 +66,9 @@ var laravel = (function ($, laravel) {
         data = data || {};
         if (data.type == undefined) {
             data.type = 'GET';
+        }
+        if (data.dataType == undefined) {
+            data.dataType = 'json';
         }
         if (data.success == undefined) {
             data.success = laravel.ajax.successHandler;
