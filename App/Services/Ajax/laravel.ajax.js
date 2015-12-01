@@ -86,7 +86,7 @@ var laravel = (function ($, laravel) {
         //var sender = this.sender;
         //var url = this.url;
         //clean validation errors
-        laravel.errors.clearValidation();
+        laravel.errors.clearValidation(this.sender);
         // message
         if (payload.alert) {
             laravel.alert(payload.alert);
