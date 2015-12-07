@@ -211,6 +211,7 @@ class Ajax {
 	 */
 	public function setJson(array $data){
 		$this->json = $data;
+		return $this;
 	}
 
 	/**
