@@ -1,4 +1,4 @@
-# Laravel-Ajax
+# Ajax Workflow for Laravel
 
   - Provides useful tools for working with AJAX requests & JSON responses.
   - **Unobtrusive** - Same behaviour for **non-AJAX** requests with single code (no if statements)
