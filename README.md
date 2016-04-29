@@ -119,7 +119,7 @@ Ajax Service recognize if request is **XmlHttpRequest** and return `JsonResponse
 ###Getting service
 ~~~~~ php
 //Dependency injection with TypeHint
-public function(\App\Services\Ajax\Ajax $ajax) {
+public function redraw(\App\Services\Ajax\Ajax $ajax) {
 	$ajax = app('ajax'); //by resolving from IoC container
 	$ajax = \Ajax::instance();  //Using Facade
 ~~~~~
