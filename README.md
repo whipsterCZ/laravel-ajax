@@ -102,8 +102,8 @@ with  *JSON* ready *X-CSRF-Token* header set.
     laravel.ajax.send({
         url: "{{ route('my.route) }}",
         type: 'GET', //optional,
-        success: function(){} //optional - default is laravel.ajax.successHandler
-        error: function(){} //optional - default is laravel.ajax.errorHandler                
+        success: function(payload){} //optional - default is laravel.ajax.successHandler
+        error: function(event){} //optional - default is laravel.ajax.errorHandler
     });
 <script>
 ~~~~~
