@@ -69,8 +69,8 @@ Ajax success request handler expect JSON containing some of these keys
 ~~~~~ javascript
 {
 	redirect: 'absoluteUrl', //page to redirect
-	sections: {     //html sections for redraw
-	   'sectionID':'<div>HTML</div>'
+	sections: {     //html snippets to be redrawn
+	   'snippetId':'<div>HTML</div>'
 	},
 	dump: true, //console.info parsed JSON,
 	alert: 'message', //alert('message'),
