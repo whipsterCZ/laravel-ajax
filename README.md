@@ -44,13 +44,13 @@ Usage
 
 ## FrontEnd
 
-to AJAXify your HTML just add `ajax` class to your Forms or Anchors
+to send your FORMs and LINKs by AJAX just add `ajax` class
 ~~~~~ html
 <form action="" class="ajax">
 <a href="ajax/my-action" class="ajax">
 ~~~~~
 
-If we want redraw some html
+If we want redraw some html after AJAX request
 ~~~~~ html
 <div id='snippet'>
    @include('partials/_snippet')
