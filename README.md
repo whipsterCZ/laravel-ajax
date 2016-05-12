@@ -132,17 +132,22 @@ Route::get('test',function(\App\Services\Ajax\Ajax $ajax){
 	});
 ~~~~~
 
-Configuration and custom AJAX requests
+Configuration and library in depth
 --------------
 
-### Configuration, extending or modifying laravel.ajax module
+###Configuration
 ~~~~~ html
 <script src="/js/laravel.ajax.js"></script>
 <script>
     laravel.errors.errorBagContainer = $('#errors');
     laravel.errors.showErrorsBag = true;
     laravel.errors.showErrorsInFormGroup = false;
+    ...
+~~~~~
 
+###Extending or modifying laravel.ajax module
+~~~~~ html
+    ...
     //modifying laravel.ajax handlers
     var laravel.ajax.superSuccessHandler = laravel.ajax.successHandler;
     laravel.ajax.successHandler = function(payload) {
@@ -157,7 +162,7 @@ Configuration and custom AJAX requests
 
     //creating extensions or helper
     laravel.helper = function(){ ...  };
- </script>
+   </script>
 ~~~~~
 
 ### Manually creating custom AJAX request
@@ -175,7 +180,7 @@ with  *JSON* ready *X-CSRF-Token* header set.
 ~~~~~
 
 ##
-Frontend library in depth
+library in depth
 
 ### Ajax success
 Ajax success request handler expect JSON containing some of these keys
