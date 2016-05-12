@@ -206,7 +206,8 @@ public function store()
     ...
     $validator = Validator::make(Input::all(), $rules);
 	if ($validator->fails()) {
-		//if request is AJAX it only sends `422 Error Response` and redirect will not be used.. @see previous section
+		//if request is AJAX it only sends `422 Error Response` and redirect will not be used..
+		//@see previous section
         return \Ajax::redirectWithErrors(route('someRoute'),$validator);
     }
 }
