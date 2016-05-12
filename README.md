@@ -176,7 +176,7 @@ with  *JSON* ready *X-CSRF-Token* header set.
         success: function(payload){} //optional - default is laravel.ajax.successHandler
         error: function(event){} //optional - default is laravel.ajax.errorHandler
     });
-<script>
+</script>
 ~~~~~
 
 ### Ajax success
