@@ -195,21 +195,18 @@ Ajax success request handler expect JSON containing some of these keys
 ~~~~~
 
 ### Ajax error
-**Ajax error** request handler recognize which error occurs.
 
-in case of Error **422 Unprocessable Entity** automatically displays validation errors
+If FormRequest fails after form validation it sends HTTP response **422 - Unprocessable Entity** which is recognized and process with `laravel.ajax.errorHandler` function.
+This function recognize which error occurred and automatically displays validation errors to the Form which sent the data...
 
 ###How to create Validation Error Response manually
-If FormRequest fails after form validation it automatically sends HTTP response **422 - Unprocessable Entity** which laravel-ajax recognize and process
-
-But sometimes we may need to create validator manually.
 ~~~~~ php
 public function store()
 {
     ...
     $validator = Validator::make(Input::all(), $rules);
 	if ($validator->fails()) {
-		//if request is AJAX it only creates `422 Error Response` and route will not be used..
+		//if request is AJAX it only sends `422 Error Response` and redirect will not be used.. @see previous section
         return \Ajax::redirectWithErrors(route('someRoute'),$validator);
     }
 }
