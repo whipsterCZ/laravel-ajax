@@ -87,8 +87,9 @@ public function redraw(\App\Services\Ajax\Ajax $ajax) {
 ~~~~~
 
 ~~~~~ php
-	// we can redraw even @section(s) - @yield() must be wrappeed with div#comments.
+	// we can redraw even @section(s) - @yield() must be wrappeed with div#sectionName.
 	// Use only with good reason, it could be very uneffective.
+	// This is also example of workflow using AJAX Facade
 	return \Ajax::redrawSection('mySection')->view('my.template');
 ~~~~~
 
