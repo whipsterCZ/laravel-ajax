@@ -117,20 +117,6 @@ public function getData(\App\Services\Ajax\Ajax $ajax) {
 }
 ~~~~~
 
-###Manually Creating Validation Error Response
-~~~~~ php
-public function store()
-{
-    ...
-    $validator = Validator::make(Input::all(), $rules);
-	if ($validator->fails()) {
-		//if request is AJAX it only creates 422 Error Response and route will not be used..  
-        return \Ajax::redirectWithErrors(route('someRoute'),$validator); 
-    }
-}
-~~~~~
-
-
 ###Fluent API
 You can utilize fluent API and with some useful methods
 ~~~~~ php
@@ -208,5 +194,21 @@ Ajax success request handler expect JSON containing some of these keys
 
 ### Ajax error
 **Ajax error** request handler recognize which error occurs.
-in case of Error **422 Unprocessable Entity** display validation errors
+in case of Error **422 Unprocessable Entity** automatically displays validation errors
 
+###Manually Creating Validation Error Response
+If FormRequest fails after form validation it automatically sends HTTP response *Error 422 - Unprocessable Entity*
+which laravel-ajax recognize and process
+
+But sometimes we may need to create validator manually.
+~~~~~ php
+public function store()
+{
+    ...
+    $validator = Validator::make(Input::all(), $rules);
+	if ($validator->fails()) {
+		//if request is AJAX it only creates `422 Error Response` and route will not be used..
+        return \Ajax::redirectWithErrors(route('someRoute'),$validator);
+    }
+}
+~~~~~
