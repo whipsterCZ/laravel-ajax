@@ -165,7 +165,7 @@ Configuration and library in depth
 </script>
 ~~~~~
 
-### Manually creating custom AJAX request
+### How to create custom AJAX request
 You can always use standard `$.ajax(options)`, but this is useful shortcut
 with  *JSON* ready *X-CSRF-Token* header set.
 ~~~~~ html
@@ -178,9 +178,6 @@ with  *JSON* ready *X-CSRF-Token* header set.
     });
 <script>
 ~~~~~
-
-##
-library in depth
 
 ### Ajax success
 Ajax success request handler expect JSON containing some of these keys
