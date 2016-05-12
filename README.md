@@ -157,12 +157,12 @@ Configuration and library in depth
         laravel.redirect(payload.redirect);
 
         //or call super success handler
-        laravel.ajax.superSuccessHandler();
+        laravel.ajax.superSuccessHandler(payload);
     };
 
     //creating extensions or helper
     laravel.helper = function(){ ...  };
-   </script>
+</script>
 ~~~~~
 
 ### Manually creating custom AJAX request
