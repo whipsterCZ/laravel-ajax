@@ -76,21 +76,21 @@ public function redraw(\App\Services\Ajax\Ajax $ajax) {
 	$ajax = \Ajax::instance();  //Using Facade
 ~~~~~
 
-###Rendering Views
+###Redrawing Views
 ~~~~~ php
 	$ajax->redrawView('snippet'); //if we want simply redraw some HTML
 	//or
 	$ajax->appendView('snippet'); //if we want to append HTML instead of replace
 	...
 	return $ajax->view('partials/_snippet', $data )
-}
+
 ~~~~~
 
 ~~~~~ php
 	// we can redraw even @section(s) - @yield() must be wrappeed with div#sectionName.
 	// Use only with good reason, it could be very uneffective.
-	// This is also example of workflow using AJAX Facade
-	return \Ajax::redrawSection('mySection')->view('my.template');
+	return $ajax->redrawSection('mySection')->view('my.template', $data);
+}
 ~~~~~
 
 ###Redirecting
@@ -100,7 +100,10 @@ public function update(ClientRequest $request, Client $client)
     $client->update($request->all());
     $request->session()->flash('success', 'Client has been updated.');
 
+	// This is also example of Ajax Facade usage
     return \Ajax::redirect(route('clients.index'));
+    //or
+    return \Ajax:redirectBack()
 }
 ~~~~~
 
@@ -108,7 +111,8 @@ public function update(ClientRequest $request, Client $client)
 ~~~~~ php
 public function getData(\App\Services\Ajax\Ajax $ajax) {
 	...
-	$ajax->json = $data; //setting custom data (custom ajax success handler needed)
+	$ajax->json = $data; //setting custom data
+	// custom ajax success handler needed -  @see section Configuration and custom AJAX requests
 	return $ajax->jsonResponse();
 }
 ~~~~~
@@ -128,18 +132,18 @@ public function store()
 
 
 ###Fluent API
-You can also use helper methods with fluent API
+You can utilize fluent API and with some useful methods
 ~~~~~ php
 Route::get('test',function(\App\Services\Ajax\Ajax $ajax){
 	return $ajax
 		->setJson([])  //set your custom json data
-		->redrawSection('content') // redraw HTML inside element HTML with id="content"
+		->redrawView('htmlID')
 		->runJavascript('alert("hello");') //evaluate javascript
-		->dump() //enable console.info of sent JSON
+		->dump() //enable console.info after JSON is delivered
 		->alert('test') //alert popup with message
 		->scrollTo('elementID')
-		->view('crm.clients.test');
-});
+		->jsonResponse() //return JsonResponse... if you have not call view() or redirect()
+	});
 ~~~~~
 
 Configuration and custom AJAX requests
