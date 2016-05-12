@@ -142,12 +142,12 @@ Configuration and library in depth
     laravel.errors.errorBagContainer = $('#errors');
     laravel.errors.showErrorsBag = true;
     laravel.errors.showErrorsInFormGroup = false;
-    ...
+<script>
 ~~~~~
 
 ###Extending or modifying laravel.ajax module
 ~~~~~ html
-    ...
+<script>
     //modifying laravel.ajax handlers
     var laravel.ajax.superSuccessHandler = laravel.ajax.successHandler;
     laravel.ajax.successHandler = function(payload) {
