@@ -142,7 +142,7 @@ Configuration and library in depth
     laravel.errors.errorBagContainer = $('#errors');
     laravel.errors.showErrorsBag = true;
     laravel.errors.showErrorsInFormGroup = false;
-<script>
+</script>
 ~~~~~
 
 ###Extending or modifying laravel.ajax module
