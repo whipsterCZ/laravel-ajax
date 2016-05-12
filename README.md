@@ -62,68 +62,6 @@ If we want redraw some html after AJAX request
 </div>
 ~~~~~
 
-
-
-### Ajax success
-Ajax success request handler expect JSON containing some of these keys
-~~~~~ javascript
-{
-	redirect: 'absoluteUrl', //page to redirect
-	sections: {     //html snippets to be redrawn
-	   'snippetId':'<div>HTML</div>'
-	},
-	dump: true, //console.info parsed JSON,
-	alert: 'message', //alert('message'),
-	runJavascript: 'jsCall();', //evaluate javascript code
-	scrollTo: 'elementID' //scroll page to element - value is elementID
-}
-~~~~~
-
-### Ajax error
-**Ajax error** request handler recognize which error occurs.
-in case of Error **422 Unprocessable Entity** display validation errors
-
-### Configuration, extending or modifying laravel.ajax module
-~~~~~ html
-<script src="/js/laravel.ajax.js"></script>
-<script>
-    laravel.errors.errorBagContainer = $('#errors');
-    laravel.errors.showErrorsBag = true;
-    laravel.errors.showErrorsInFormGroup = false;
-
-    //modifying laravel.ajax handlers
-    var laravel.ajax.superSuccessHandler = laravel.ajax.successHandler;
-    laravel.ajax.successHandler = function(payload) {
-        //custom logic here
-
-        //using one of laravel helpers
-        laravel.redirect(payload.redirect);
-
-        //or call super success handler
-        laravel.ajax.superSuccessHandler();
-    };
-    
-    //creating extensions or helper 
-    laravel.helper = function(){ ...  };    
- </script>
-~~~~~
-
-### Manually creating custom AJAX request
-You can always use standard `$.ajax(options)`, but this is useful shortcut 
-with  *JSON* ready *X-CSRF-Token* header set.
-~~~~~ html
-<script>
-    laravel.ajax.send({
-        url: "{{ route('my.route) }}",
-        type: 'GET', //optional,
-        success: function(payload){} //optional - default is laravel.ajax.successHandler
-        error: function(event){} //optional - default is laravel.ajax.errorHandler
-    });
-<script>
-~~~~~
-
-
-
 ## BackEnd
 
 Ajax Service provides you a **Factory for your response**. It is designed to simplify your work and communication with frontend.
@@ -203,4 +141,67 @@ Route::get('test',function(\App\Services\Ajax\Ajax $ajax){
 });
 ~~~~~
 
+Configuration and custom AJAX requests
+--------------
+
+### Configuration, extending or modifying laravel.ajax module
+~~~~~ html
+<script src="/js/laravel.ajax.js"></script>
+<script>
+    laravel.errors.errorBagContainer = $('#errors');
+    laravel.errors.showErrorsBag = true;
+    laravel.errors.showErrorsInFormGroup = false;
+
+    //modifying laravel.ajax handlers
+    var laravel.ajax.superSuccessHandler = laravel.ajax.successHandler;
+    laravel.ajax.successHandler = function(payload) {
+        //custom logic here
+
+        //using one of laravel helpers
+        laravel.redirect(payload.redirect);
+
+        //or call super success handler
+        laravel.ajax.superSuccessHandler();
+    };
+
+    //creating extensions or helper
+    laravel.helper = function(){ ...  };
+ </script>
+~~~~~
+
+### Manually creating custom AJAX request
+You can always use standard `$.ajax(options)`, but this is useful shortcut
+with  *JSON* ready *X-CSRF-Token* header set.
+~~~~~ html
+<script>
+    laravel.ajax.send({
+        url: "{{ route('my.route) }}",
+        type: 'GET', //optional,
+        success: function(payload){} //optional - default is laravel.ajax.successHandler
+        error: function(event){} //optional - default is laravel.ajax.errorHandler
+    });
+<script>
+~~~~~
+
+##
+Frontend library in depth
+
+### Ajax success
+Ajax success request handler expect JSON containing some of these keys
+~~~~~ javascript
+{
+	redirect: 'absoluteUrl', //page to redirect
+	sections: {     //html snippets to be redrawn
+	   'snippetId':'<div>HTML</div>'
+	},
+	dump: true, //console.info parsed JSON,
+	alert: 'message', //alert('message'),
+	runJavascript: 'jsCall();', //evaluate javascript code
+	scrollTo: 'elementID' //scroll page to element - value is elementID
+}
+~~~~~
+
+### Ajax error
+**Ajax error** request handler recognize which error occurs.
+in case of Error **422 Unprocessable Entity** display validation errors
 
