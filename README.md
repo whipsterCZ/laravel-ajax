@@ -50,15 +50,15 @@ to AJAXify your HTML just add `ajax` class to your Forms or Anchors
 <a href="ajax/my-action" class="ajax">
 ~~~~~
 
-If I want redraw some html
+If we want redraw some html
 ~~~~~ html
 <div id='snippet'>
    @include('partials/_snippet')
 </div>
 
-<!-- In case that we want redraw section header-->
-<div id='header'>
-	@yield('header')
+<!-- In case that we want redraw section-->
+<div id='mySection'>
+	@yield('mySection')
 </div>
 ~~~~~
 
@@ -143,11 +143,15 @@ public function redraw(\App\Services\Ajax\Ajax $ajax) {
 	$ajax->redrawView('snippet'); //if we want simply redraw some HTML
 	//or
 	$ajax->appendView('snippet'); //if we want to append HTML instead of replace
-	//or
-	$ajax->redrawSection('comments');  // we can redraw whole section(s) if view has @section(s)  - @yield() must be wrappeed with div#comments.
 	...
-	return $ajax->view('posts.show', $data )
+	return $ajax->view('partials/_snippet', $data )
 }
+~~~~~
+
+~~~~~ php
+	// we can redraw even @section(s) - @yield() must be wrappeed with div#comments.
+	// Use only with good reason, it could be very uneffective.
+	return \Ajax::redrawSection('mySection')->view('my.template');
 ~~~~~
 
 ###Redirecting
