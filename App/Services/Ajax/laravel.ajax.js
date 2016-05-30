@@ -6,7 +6,14 @@
  * @dependency HTML <meta name="_token" content="{!! csrf_token() !!}"/>
  * @autor Daniel Kouba whipstercz@gmail.com
  */
-var laravel = (function ($, laravel) {
+
+var factory = function () {
+    var $ = window.jQuery;
+    if (typeof $ !== 'function') {
+        return console.error('laravel.ajax.js: jQuery is missing, load it please');
+    }
+
+    var laravel = window.laravel = window.laravel || {};
 
     laravel.ajax = {};
     laravel.errors = laravel.errors || {};
@@ -295,5 +302,19 @@ var laravel = (function ($, laravel) {
     };
 
     laravel.ajax.init();
+
     return laravel;
-})(jQuery, laravel || {});
+
+};
+
+
+//UMD - unified module definition
+(function(name,context,factory) {
+    if (typeof module != 'undefined' && module.exports)
+        module.exports = factory();
+    else if (typeof define == 'function' && define.amd)
+        define(name, factory);
+    else
+        context[name] = factory();
+}('laravel',this, factory));
+
