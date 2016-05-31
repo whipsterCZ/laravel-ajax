@@ -38,6 +38,7 @@ php artisan vendor:publish --tag=public --force
   <meta name="_token" content="{!! csrf_token() !!}"/>
   <script src="/js/laravel.ajax.js"></script>
 ~~~~~
+you can use browserify `require('laravel.ajax');` in your **app.js**
 
 Usage
 ---------------------
