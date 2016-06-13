@@ -4,6 +4,7 @@
   - **Unobtrusive** - Same behaviour for **non-AJAX** requests with single code (no if statements)
   - YES - it can be used for processing **FORMs via AJAX** out of the box!
   - Invalid `FormRequests` **display HTML validation errors** both to *ErrorBagContainer* and *FormGroup (Optional)*
+     - Uses Bootstrap CSS Form semantics. Compatible with Bootstrap 3 & 4.  
   - Support clientside **@section redraw** and **redirects**. @see `Ajax` Service
   - Only dependencies are jQuery1.8> nad Laravel 4> 
 
