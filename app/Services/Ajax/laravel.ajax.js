@@ -1,10 +1,10 @@
 /**
  * Laravel AJAX Support with Form Validation
  *
- * @dependency jQuery >2
- * @dependency CSS BOOTSRAP >=3
+ * @dependency jQuery >=2
+ * @dependency CSS BOOTSTRAP >=3
  * @dependency HTML <meta name="_token" content="{!! csrf_token() !!}"/>
- * @autor Daniel Kouba whipstercz@gmail.com
+ * @author Daniel Kouba whipstercz@gmail.com
  */
 
 var factory = function () {
@@ -21,7 +21,10 @@ var factory = function () {
     //Configuration validation
     laravel.errors.errorBagContainer = $('#errors');
     laravel.errors.showErrorsBag = true;
-    laravel.errors.showErrorsInFormGroup = false;
+    laravel.errors.showErrorsInFormGroup = true;
+
+    //this is overwritten later be guessing version
+    laravel.bootstrapVersion = 3;
 
     laravel.ajax.init = function () {
         //Adding info about submit trigger
@@ -213,11 +216,13 @@ var factory = function () {
         if (laravel.errors.showErrorsBag && laravel.errors.errorBagContainer.length > 0) {
             laravel.errors.errorBagContainer.html('');
         }
+        var errorClass = laravel.getErrorClass();
+        var messageClass = laravel.getErrorMessageClass();
         //remove existing error classes and error messages from form groups
         if (laravel.errors.showErrorsInFormGroup) {
-            $(form).find('.has-error .help-block').text('');
+            $(form).find('.'+errorClass+' .'+messageClass).text('');
         }
-        $(form).find('.has-error').removeClass('has-error');
+        $(form).find('.'+errorClass).removeClass(errorClass);
     };
     laravel.errors.renderValidationErrorBag = function (errors) {
         if (laravel.errors.showErrorsBag) {
@@ -258,12 +263,12 @@ var factory = function () {
         }
 
         //add form group error class
-        formGroup.addClass('has-error');
+        formGroup.addClass(laravel.getErrorClass());
         //add form group error message
         if (laravel.errors.showErrorsInFormGroup) {
-            var $span = formGroup.find('.help-block');
+            var $span = formGroup.find('.'+laravel.getErrorMessageClass());
             if ($span.length == 0) {
-                $span = $('<span class="help-block"></span>');
+                $span = $('<span class="'+laravel.getErrorMessageClass() +'"></span>');
                 formGroup.append($span);
             }
             $span.text(errors.join(', '));
@@ -301,6 +306,17 @@ var factory = function () {
         return name;
     };
 
+    laravel.guessBootstrapVersion = function(){
+        return $('.form-control-label').length > 0 ? 4 : 3;
+    };
+    laravel.getErrorClass = function(){
+        return laravel.bootstrapVersion < 4 ? 'has-error' : 'has-danger';
+    };
+    laravel.getErrorMessageClass = function(){
+        return laravel.bootstrapVersion < 4 ? 'help-block' : 'text-muted'
+    };
+    laravel.bootstrapVersion = laravel.guessBootstrapVersion();
+
     laravel.ajax.init();
 
     return laravel;
@@ -317,4 +333,3 @@ var factory = function () {
     else
         context[name] = factory();
 }('laravel',this, factory));
-

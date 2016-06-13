@@ -143,6 +143,7 @@ Configuration and library in depth
     laravel.errors.errorBagContainer = $('#errors');
     laravel.errors.showErrorsBag = true;
     laravel.errors.showErrorsInFormGroup = false;
+    laravel.bootstrapVersion = 3;
 </script>
 ~~~~~
 
