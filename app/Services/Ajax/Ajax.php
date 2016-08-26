@@ -1,10 +1,9 @@
 <?php
 /**
- * User: whipstercz
+ * @author Daniel Kouba <whipstercz@gmail.com>
  */
 
 namespace App\Services\Ajax;
-
 
 use Illuminate\Contracts\Support\MessageProvider;
 use Illuminate\Contracts\View\View;

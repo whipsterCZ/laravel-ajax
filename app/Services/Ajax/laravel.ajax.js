@@ -4,7 +4,7 @@
  * @dependency jQuery >=2
  * @dependency CSS BOOTSTRAP >=3
  * @dependency HTML <meta name="_token" content="{!! csrf_token() !!}"/>
- * @author Daniel Kouba whipstercz@gmail.com
+ * @author Daniel Kouba <whipstercz@gmail.com>
  */
 
 var factory = function () {
