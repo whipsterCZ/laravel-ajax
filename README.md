@@ -6,7 +6,7 @@
   - Invalid `FormRequests` **display HTML validation errors** both to *ErrorBagContainer* and *FormGroup (Optional)*
      - Uses Bootstrap CSS Form semantics. Compatible with Bootstrap 3 & 4.  
   - Support clientside **@section redraw** and **redirects**. @see `Ajax` Service
-  - Only dependencies are jQuery1.8> nad Laravel 4> 
+  - Only dependencies are jQuery1.8> and Laravel 4> 
 
 Installation
 ------------
