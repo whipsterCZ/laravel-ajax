@@ -205,7 +205,7 @@ Ajax success request handler expect JSON containing some of these keys
 If FormRequest fails after form validation it sends HTTP response **422 - Unprocessable Entity** which is recognized and process with `laravel.ajax.errorHandler` function.
 This function recognize which error occurred and automatically displays validation errors to the Form which sent the data...
 
-###How to create Validation Error Response manually
+### How to create Validation Error Response manually
 ~~~~~ php
 public function store()
 {
