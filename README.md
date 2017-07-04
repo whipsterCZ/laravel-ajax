@@ -70,7 +70,7 @@ Ajax Service provides you a **Factory for your response**. It is designed to sim
 
 Ajax Service recognize if request is **XmlHttpRequest** and return `JsonResponse`, in other case returns regular `Http\Response` or `Http\RedirectResponse`
 
-###Getting service
+### Getting service
 ~~~~~ php
 //Dependency injection with TypeHint
 public function redraw(\App\Services\Ajax\Ajax $ajax) {
@@ -95,7 +95,7 @@ public function redraw(\App\Services\Ajax\Ajax $ajax) {
 }
 ~~~~~
 
-###Redirecting
+### Redirecting
 ~~~~~ php
 public function update(ClientRequest $request, Client $client)
 {
@@ -109,7 +109,7 @@ public function update(ClientRequest $request, Client $client)
 }
 ~~~~~
 
-###Sending custom data
+### Sending custom data
 ~~~~~ php
 public function getData(\App\Services\Ajax\Ajax $ajax) {
 	...
