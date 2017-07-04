@@ -78,7 +78,7 @@ public function redraw(\App\Services\Ajax\Ajax $ajax) {
 	$ajax = \Ajax::instance();  //Using Facade
 ~~~~~
 
-###Redrawing Views
+### Redrawing Views
 ~~~~~ php
 	$ajax->redrawView('snippet'); //if we want simply redraw some HTML
 	//or
@@ -119,7 +119,7 @@ public function getData(\App\Services\Ajax\Ajax $ajax) {
 }
 ~~~~~
 
-###Fluent API
+### Fluent API
 You can utilize fluent API and with some useful methods
 ~~~~~ php
 Route::get('test',function(\App\Services\Ajax\Ajax $ajax){
@@ -137,7 +137,7 @@ Route::get('test',function(\App\Services\Ajax\Ajax $ajax){
 Configuration and library in depth
 --------------
 
-###Configuration
+### Configuration
 ~~~~~ html
 <script src="/js/laravel.ajax.js"></script>
 <script>
@@ -148,23 +148,25 @@ Configuration and library in depth
 </script>
 ~~~~~
 
-###Extending or modifying laravel.ajax module
+### Extending or modifying laravel.ajax module
 ~~~~~ html
 <script>
-    //modifying laravel.ajax handlers
-    var laravel.ajax.superSuccessHandler = laravel.ajax.successHandler;
+    //modifying laravel.ajax handlers globally
+    var originalSuccessHandler = laravel.ajax.successHandler;
     laravel.ajax.successHandler = function(payload) {
         //custom logic here
 
         //using one of laravel helpers
         laravel.redirect(payload.redirect);
 
-        //or call super success handler
-        laravel.ajax.superSuccessHandler(payload);
+        //or call original success handler
+        originalSuccessHandler(payload);
     };
 
     //creating extensions or helper
     laravel.helper = function(){ ...  };
+    
+    //for local modification you can create your custom ajax via calling  laravel.ajax.send(...)
 </script>
 ~~~~~
 
