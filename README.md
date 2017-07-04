@@ -152,21 +152,19 @@ Configuration and library in depth
 ~~~~~ html
 <script>
     //modifying laravel.ajax handlers globally
-    var originalSuccessHandler = laravel.ajax.successHandler;
+    var laravel.ajax.originalSuccessHandler = laravel.ajax.successHandler;
     laravel.ajax.successHandler = function(payload) {
         //custom logic here
 
         //using one of laravel helpers
         laravel.redirect(payload.redirect);
 
-        //or call original success handler
-        originalSuccessHandler(payload);
+        //or call super success handler
+        laravel.ajax.originalSuccessHandler(payload);
     };
 
     //creating extensions or helper
     laravel.helper = function(){ ...  };
-    
-    //for local modification you can create your custom ajax via calling  laravel.ajax.send(...)
 </script>
 ~~~~~
 
@@ -179,7 +177,10 @@ with  *JSON* ready *X-CSRF-Token* header set.
         url: "{{ route('my.route) }}",
         type: 'GET', //optional,
         success: function(payload){} //optional - default is laravel.ajax.successHandler
-        error: function(event){} //optional - default is laravel.ajax.errorHandler
+        error: function(event){      //optional - default is laravel.ajax.errorHandler
+		...
+		laravel.ajax.errorHandler.call(this,event); //calling super handler
+	} 
     });
 </script>
 ~~~~~
