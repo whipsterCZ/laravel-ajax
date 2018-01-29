@@ -255,7 +255,10 @@ var factory = function () {
             field = $(form).find('#' + fieldName);
         }
         field = field.not('[type="hidden"]').first();
-        var formGroup = field.parent();
+        var formGroup = field.closest('.form-group');
+        if( formGroup.length == 0) {
+            formGroup = field.parent();
+        }
         //console.info(fieldName,errors,field,form);
 
         if (shouldFocus) {
