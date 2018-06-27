@@ -4,7 +4,7 @@
  * @dependency jQuery >=2
  * @dependency CSS BOOTSTRAP >=3
  * @dependency HTML <meta name="_token" content="{!! csrf_token() !!}"/>
- * @author Daniel Kouba <whipstercz@gmail.com>
+ * @author Daniel Kouba whipstercz@gmail.com
  */
 
 var factory = function () {
@@ -34,8 +34,11 @@ var factory = function () {
         });
 
         //Setting default AJAX behaviours
+        // console.info('setting ajax headers');
         $.ajaxSetup({
-            headers: {'X-CSRF-Token': $('meta[name=_token]').attr('content')}
+            headers: {
+                'X-CSRF-Token': $('meta[name=_token]').attr('content')
+            }
         });
 
         //Sending form.ajax by AJAX
@@ -134,7 +137,7 @@ var factory = function () {
         var url = this.url;
         var payload = event.responseJSON;
         var status = event.status;
-        //console.info('ajax error',this,payload,event);
+        // console.info('ajax error',this,payload,event,sender);
 
         if (status == 422) {  //validation Error
             laravel.errors.clearValidation(sender);
@@ -214,7 +217,11 @@ var factory = function () {
     laravel.errors.clearValidation = function (form) {
         //remove errorBag element id='error'
         if (laravel.errors.showErrorsBag && laravel.errors.errorBagContainer.length > 0) {
-            laravel.errors.errorBagContainer.html('');
+            if($(form).find('.error-bag').length >0 ) {
+                $(form).find('.error-bag').html('');
+            } else {
+                laravel.errors.errorBagContainer.html('');
+            }
         }
         var errorClass = laravel.getErrorClass();
         var messageClass = laravel.getErrorMessageClass();
@@ -224,7 +231,7 @@ var factory = function () {
         }
         $(form).find('.'+errorClass).removeClass(errorClass);
     };
-    laravel.errors.renderValidationErrorBag = function (errors) {
+    laravel.errors.renderValidationErrorBag = function (errors,form) {
         if (laravel.errors.showErrorsBag) {
 
             var $ul = $('<ul></ul>');
@@ -242,7 +249,12 @@ var factory = function () {
             }
             var $errorBag = $('<div class="alert alert-danger"></div>');
             $errorBag.append($ul);
-            laravel.errors.errorBagContainer.append($errorBag);
+            if($(form).find('.error-bag').length >0 ) {
+                $(form).find('.error-bag').append($errorBag);
+            } else {
+                laravel.errors.errorBagContainer.append($errorBag);
+            }
+
         }
     };
     laravel.errors.renderValidationFormGroup = function (fieldName, errors, form, shouldFocus) {
@@ -255,10 +267,8 @@ var factory = function () {
             field = $(form).find('#' + fieldName);
         }
         field = field.not('[type="hidden"]').first();
-        var formGroup = field.closest('.form-group');
-        if( formGroup.length == 0) {
-            formGroup = field.parent();
-        }
+        field.addClass(laravel.getErrorClass());
+        var formGroup = field.parent();
         //console.info(fieldName,errors,field,form);
 
         if (shouldFocus) {
@@ -271,7 +281,7 @@ var factory = function () {
         if (laravel.errors.showErrorsInFormGroup) {
             var $span = formGroup.find('.'+laravel.getErrorMessageClass());
             if ($span.length == 0) {
-                $span = $('<span class="'+laravel.getErrorMessageClass() +'"></span>');
+                $span = $('<span class="animated fadeIn '+laravel.getErrorMessageClass() +'"></span>');
                 formGroup.append($span);
             }
             $span.text(errors.join(', '));
@@ -282,7 +292,7 @@ var factory = function () {
         //console.info(errors);
 
         //render errors to errorBag container
-        laravel.errors.renderValidationErrorBag(errors);
+        laravel.errors.renderValidationErrorBag(errors,form);
 
         var isFirstError = true;
         for (var fieldName in errors) {
@@ -313,14 +323,41 @@ var factory = function () {
         return $('.form-control-label').length > 0 ? 4 : 3;
     };
     laravel.getErrorClass = function(){
-        return laravel.bootstrapVersion < 4 ? 'has-error' : 'has-danger';
+        return laravel.bootstrapVersion < 4 ? 'has-error' : 'is-invalid';
     };
     laravel.getErrorMessageClass = function(){
-        return laravel.bootstrapVersion < 4 ? 'help-block' : 'text-muted'
+        return laravel.bootstrapVersion < 4 ? 'help-block' : 'invalid-feedback'
     };
     laravel.bootstrapVersion = laravel.guessBootstrapVersion();
 
     laravel.ajax.init();
+
+    laravel.errors.singleErrorMessage = function(event){
+        // console.info('laravel.errors.payload',payload);
+        var status = event.status;
+        var statusText = event.statusText;
+        try
+        {
+            var payload = JSON.parse(event.responseText);
+            if(payload.error) {
+                return payload.error;
+            }
+        } catch(e) {
+            return  statusText
+        }
+
+        if (status == 422) {  //validation Error
+            for (var fieldName in payload) {
+                if (payload.hasOwnProperty(fieldName)) {
+                    var fieldErrors = payload[fieldName];
+                    //console.info(field,fieldErrors);
+                    return fieldErrors.join(', ')
+                }
+            }
+        }
+        return statusText
+
+    };
 
     return laravel;
 
